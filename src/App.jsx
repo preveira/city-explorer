@@ -14,22 +14,22 @@ function App() {
     let value = event.target.value;
     setCity(value);
   }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     getLocation(city);
   }
-  const getLocation = async (city) => {
-    let response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
-    if (!response.data || response.data.length === 0) {
-      response = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
-    }
-    console.log(response);
-    setResponseData(response.data[0]);
-  }
 
-  const handleNext = async (url) => {
-    let response = await axios.get(url);
-    setResponseData(response.data);
+  const getLocation = async (city) => {
+    try {
+      let response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
+      if (!response.data || response.data.length === 0) {
+        response = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
+      }
+      setResponseData(response.data[0]);
+    } catch (error) {
+      setError(error);
+    }
   }
 
   console.log(responseData);
