@@ -32,7 +32,7 @@ function App() {
   return (
     <>
       <header>
-        <h1>Geolocation</h1>
+        <h1>Search For a City</h1>
         <form>
           <input type="text" placeholder="Enter a city name" onChange={handleInput} />
           <button onClick={handleSubmit}>
