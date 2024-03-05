@@ -44,11 +44,11 @@ function App() {
         {responseData.display_name
         ? <ol>
             <p>{responseData.display_name}</p>
+            <p>Lattitude: {responseData.lat} / Longitude: {responseData.lon}</p>
             <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${responseData.lat},${responseData.lon}&zoom=9`}/>
           </ol>
         : <p>Please Click the button</p>
         }
-        <button onClick={() => handleNext(responseData?.next)}>Next</button>
       </div>
     </>
   )
