@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios';
+import { Container, Form, Button, Card } from 'react-bootstrap';
 import './App.css'
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -33,27 +34,35 @@ function App() {
 
   console.log(responseData);
   return (
-    <>
-      <header>
+    <Container>
+      <header className="mt-5 mb-4">
         <h1>Search For a City</h1>
-        <form>
-          <input type="text" placeholder="Enter a city name" onChange={handleInput} />
-          <button onClick={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="citySearch">
+            <Form.Control type="text" placeholder="Enter a city name" onChange={handleInput} />
+          </Form.Group>
+          <Button variant="primary" type="submit">
             Search
-          </button>
-        </form>
+          </Button>
+        </Form>
       </header>
-      <div className="card">
-        {responseData.display_name
-        ? <ol>
-            <p>{responseData.display_name}</p>
-            <p>Lattitude: {responseData.lat} / Longitude: {responseData.lon}</p>
-            <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${responseData.lat},${responseData.lon}&zoom=9`}/>
-          </ol>
-        : <p>Please Click the button</p>
-        }
-      </div>
-    </>
+      <Card className="mt-3">
+        <Card.Body>
+          {responseData.display_name
+          ? (
+            <>
+              <Card.Title>{responseData.display_name}</Card.Title>
+              <Card.Text>
+                Latitude: {responseData.lat} / Longitude: {responseData.lon}
+              </Card.Text>
+              <Card.Img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${responseData.lat},${responseData.lon}&zoom=9`} />
+            </>
+          )
+          : <Card.Text>No results found</Card.Text>
+          }
+        </Card.Body>
+      </Card>
+    </Container>
   )
 }
 
