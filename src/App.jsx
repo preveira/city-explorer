@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios';
 import { Container, Form, Button, Card } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
 const API_KEY = import.meta.env.VITE_API_KEY;
