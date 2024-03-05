@@ -24,12 +24,10 @@ function App() {
   const getLocation = async (city) => {
     try {
       let response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
-      if (!response.data || response.data.length === 0) {
-        response = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
-      }
       setResponseData(response.data[0]);
+      setError(null);
     } catch (error) {
-      setError(error);
+      setError('Input invalid');
     }
   }
 
@@ -47,6 +45,7 @@ function App() {
           </Button>
         </Form>
       </header>
+      {error ? <p>{error}</p> : <br/>}
       <Card className="mt-3">
         <Card.Body>
           {responseData.display_name
