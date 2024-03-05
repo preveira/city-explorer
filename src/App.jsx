@@ -19,6 +19,9 @@ function App() {
   }
   const getLocation = async (city) => {
     let response = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
+    if (!response.data || response.data.length === 0) {
+      response = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
+    }
     console.log(response);
     setResponseData(response.data[0]);
   }
