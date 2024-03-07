@@ -9,6 +9,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 function App() {
   const [responseData, setResponseData] = useState({});
   const [weatherResponseData, setWeatherResponseData] = useState({});
+  const [movieResponseData, setMovieResponseData] = useState({});
   const [error, setError] = useState(null);
   const [city, setCity] = useState('');
 
@@ -25,7 +26,9 @@ function App() {
   const getLocation = async (city) => {
     try {
       let cityResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
+      console.log(cityResponse.data);
       let weatherResponse = await axios.get(`http://localhost:3000/weather/${cityResponse.data[0].lat}_${cityResponse.data[0].lon}`);
+      getMovies(city);
       setResponseData(cityResponse.data[0]);
       setWeatherResponseData(weatherResponse);
       setError(null);
@@ -34,7 +37,18 @@ function App() {
     }
   }
 
-  console.log(responseData);
+  const getMovies = async (city) => {
+    try {
+      // how do we send something to another computer???
+      let movieResponse = await axios.get(`http://localhost:3000/movies/${city}`);
+      console.log('MOVIE RESPONSE OBJECT', movieResponse);
+      setMovieResponseData(movieResponse.data);
+    } catch (e) {
+      console.error('Couldnt fetch movie data :(');
+    }
+  }
+
+  console.log('MOVIE VALUES IN STATE', movieResponseData);
   return (
     <>
       <Container>
@@ -72,6 +86,28 @@ function App() {
               </>
             )
             : <Card.Text>No results found</Card.Text>
+            }
+          </Card.Body>
+        </Card>
+        <Card className="mt-3">
+          <Card.Body>
+            {movieResponseData.results 
+              ? (
+                <>
+                  {movieResponseData.results?.map((movie, id) => {
+                    return (
+                      <div key={id}>
+                        <Card.Title>{movie.title}</Card.Title>
+                        <Card.Text>
+                          {movie.overview}
+                        </Card.Text>
+                      </div>
+                    )
+                  })}
+
+                </>
+              )
+              : <Card.Text>No results found</Card.Text>
             }
           </Card.Body>
         </Card>
