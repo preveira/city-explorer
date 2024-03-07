@@ -60,7 +60,8 @@ function App() {
                   Latitude: {responseData.lat} / Longitude: {responseData.lon}
                 </Card.Text>
                 <Card.Img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${responseData.lat},${responseData.lon}&zoom=9`} />
-                {weatherResponseData.data.map((weather, id) => {
+                {console.log(weatherResponseData)};
+                {weatherResponseData.data?.map((weather, id) => {
                   return(
                   <div key={id}>
                     <p>{weather.date}</p>
