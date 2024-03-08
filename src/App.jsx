@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
 const API_KEY = import.meta.env.VITE_API_KEY;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL; 
 
 function App() {
   const [responseData, setResponseData] = useState({});
@@ -18,16 +19,16 @@ function App() {
     setCity(value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    getLocation(city);
+    await getLocation(city);
   }
 
   const getLocation = async (city) => {
     try {
       let cityResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${city}&format=json`);
       console.log(cityResponse.data);
-      let weatherResponse = await axios.get(`http://localhost:3000/weather/${cityResponse.data[0].lat}_${cityResponse.data[0].lon}`);
+      let weatherResponse = await axios.get(`${SERVER_URL}/weather/${cityResponse.data[0].lat}_${cityResponse.data[0].lon}`);
       getMovies(city);
       setResponseData(cityResponse.data[0]);
       setWeatherResponseData(weatherResponse);
