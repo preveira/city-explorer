@@ -41,7 +41,7 @@ function App() {
   const getMovies = async (city) => {
     try {
       // how do we send something to another computer???
-      let movieResponse = await axios.get(`http://localhost:3000/movies/${city}`);
+      let movieResponse = await axios.get(`${SERVER_URL}/movies/${city}`);
       console.log('MOVIE RESPONSE OBJECT', movieResponse);
       setMovieResponseData(movieResponse.data);
     } catch (e) {
